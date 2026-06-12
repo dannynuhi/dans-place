@@ -18,7 +18,7 @@ from urllib.parse import quote
 SITE_NAME = "Dan's Place"
 TAGLINE = "Simple fixes. Clear answers."
 PROJECT_NAME = "dans-place"
-BASE_URL = "https://example.com"
+BASE_URL = "https://dannynuhi.github.io/dans-place"
 
 
 SOFTWARE = [
@@ -163,6 +163,12 @@ def safe_write(path: Path, content: str) -> None:
     temp_name.replace(path)
 
 
+def reset_dir(path: Path) -> None:
+    if path.exists():
+        shutil.rmtree(path)
+    path.mkdir(parents=True, exist_ok=True)
+
+
 def topics() -> Iterable[Topic]:
     index = 0
     for issue in SOFTWARE:
@@ -203,7 +209,11 @@ def page_text(topic: Topic, lang: str) -> dict[str, str | list[str]]:
         keywords = [topic.issue, topic.device, topic.symptom, "troubleshooting", "simple fix", SITE_NAME]
         related_heading = "Related fixes"
         related_label = "Related troubleshooting pages"
-        alt_label = "Espanol"
+        alt_label = "ES"
+        start_heading = "Start here"
+        next_heading = "What to check next"
+        next_text = "Move slowly and test after each step. If one change helps, stop there and keep the setup simple."
+        safety_heading = "Safety note"
     else:
         issue, device, symptom = translated(topic)
         title = f"Como arreglar {issue} cuando tu {device} {symptom}"
@@ -227,7 +237,11 @@ def page_text(topic: Topic, lang: str) -> dict[str, str | list[str]]:
         keywords = [issue, device, symptom, "solucion de problemas", "arreglo simple", SITE_NAME]
         related_heading = "Soluciones relacionadas"
         related_label = "Paginas relacionadas"
-        alt_label = "English"
+        alt_label = "EN"
+        start_heading = "Empieza aqui"
+        next_heading = "Que revisar despues"
+        next_text = "Avanza con calma y prueba despues de cada paso. Si un cambio ayuda, detenlo ahi y conserva la configuracion simple."
+        safety_heading = "Nota de seguridad"
     return {
         "title": title,
         "intro": intro,
@@ -237,6 +251,10 @@ def page_text(topic: Topic, lang: str) -> dict[str, str | list[str]]:
         "related_heading": related_heading,
         "related_label": related_label,
         "alt_label": alt_label,
+        "start_heading": start_heading,
+        "next_heading": next_heading,
+        "next_text": next_text,
+        "safety_heading": safety_heading,
     }
 
 
@@ -244,14 +262,14 @@ def article_html(data: dict[str, str | list[str]]) -> str:
     steps = "\n".join(f"        <li>{html.escape(step)}</li>" for step in data["steps"])  # type: ignore[index]
     return f"""<h1>{html.escape(str(data["title"]))}</h1>
       <p>{html.escape(str(data["intro"]))}</p>
-      <h2>Start here</h2>
+      <h2>{html.escape(str(data["start_heading"]))}</h2>
       <ol>
 {steps}
       </ol>
-      <h2>What to check next</h2>
-      <p>Move slowly and test after each step. If one change helps, stop there and keep the setup simple.</p>
+      <h2>{html.escape(str(data["next_heading"]))}</h2>
+      <p>{html.escape(str(data["next_text"]))}</p>
       <div class="note warning">
-        <h3>Safety note</h3>
+        <h3>{html.escape(str(data["safety_heading"]))}</h3>
         <p>{html.escape(str(data["note"]))}</p>
       </div>"""
 
@@ -271,10 +289,7 @@ def related_links(topic: Topic, lang: str) -> str:
 
 
 def slug_for(topic: Topic, lang: str) -> str:
-    if lang == "en":
-        return slugify(f"{topic.issue}-{topic.device}-{topic.symptom}")
-    issue, device, symptom = translated(topic)
-    return slugify(f"{issue}-{device}-{symptom}")
+    return slugify(f"{topic.issue}-{topic.device}-{topic.symptom}")
 
 
 def validate(rendered: str, lang: str) -> tuple[bool, int, list[str]]:
@@ -301,6 +316,104 @@ def validate(rendered: str, lang: str) -> tuple[bool, int, list[str]]:
     if score < 6:
         reasons.append("score below acceptance threshold")
     return not reasons, score, reasons
+
+
+def validate_file(path: Path, lang: str) -> tuple[bool, list[str]]:
+    content = path.read_text(encoding="utf-8")
+    ok, _score, reasons = validate(content, lang)
+    if "<ol>" not in content or "</ol>" not in content:
+        reasons.append("missing troubleshooting steps")
+    if lang == "en" and '<html lang="en">' not in content:
+        reasons.append("wrong page language")
+    if lang == "es" and '<html lang="es">' not in content:
+        reasons.append("wrong page language")
+    if lang == "es" and any(text in content for text in ["Start here", "What to check next", "Safety note"]):
+        reasons.append("english labels in spanish page")
+    if lang == "en" and any(text in content for text in ["Empieza aqui", "Que revisar despues", "Nota de seguridad"]):
+        reasons.append("spanish labels in english page")
+    return not reasons, reasons
+
+
+def local_links(content: str) -> list[str]:
+    links = re.findall(r'(?:href|src)="([^"#?]+)', content)
+    return [link for link in links if not re.match(r"^[a-z]+:", link) and not link.startswith("//")]
+
+
+def build_sitemap_from_scan(site_root: Path) -> list[str]:
+    pages = sorted(
+        path for lang in ("en", "es")
+        for path in (site_root / lang).glob("*.html")
+    )
+    urls = []
+    for page in pages:
+        rel = page.relative_to(site_root).as_posix()
+        urls.append(f"{BASE_URL}/{quote(rel)}")
+    today = date.today().isoformat()
+    sitemap_items = "\n".join(
+        f"  <url><loc>{html.escape(url)}</loc><lastmod>{today}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>"
+        for url in urls
+    )
+    sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{sitemap_items}
+</urlset>
+"""
+    safe_write(site_root / "sitemap.xml", sitemap)
+    return urls
+
+
+def validate_site(site_root: Path, target: int) -> tuple[bool, list[str]]:
+    issues: list[str] = []
+    en_pages = sorted((site_root / "en").glob("*.html"))
+    es_pages = sorted((site_root / "es").glob("*.html"))
+    if len(en_pages) != target // 2:
+        issues.append(f"english page count is {len(en_pages)}")
+    if len(es_pages) != target // 2:
+        issues.append(f"spanish page count is {len(es_pages)}")
+    if len(en_pages) + len(es_pages) != target:
+        issues.append(f"total page count is {len(en_pages) + len(es_pages)}")
+    en_slugs = {path.name for path in en_pages}
+    es_slugs = {path.name for path in es_pages}
+    if en_slugs != es_slugs:
+        issues.append("language slug parity mismatch")
+    required = [
+        site_root / "index.html",
+        site_root / "sitemap.xml",
+        site_root / "assets/css/site.css",
+        site_root / "seo",
+    ]
+    for path in required:
+        if not path.exists():
+            issues.append(f"missing {path.relative_to(site_root)}")
+    checked_pages = en_pages + es_pages
+    for page in checked_pages:
+        lang = page.parent.name
+        ok, reasons = validate_file(page, lang)
+        if not ok:
+            issues.append(f"{page.relative_to(site_root)}: {', '.join(reasons)}")
+        content = page.read_text(encoding="utf-8")
+        for link in local_links(content):
+            target_path = (page.parent / link).resolve()
+            try:
+                target_path.relative_to(site_root.resolve())
+            except ValueError:
+                issues.append(f"{page.relative_to(site_root)}: link leaves docs: {link}")
+                continue
+            if not target_path.exists():
+                issues.append(f"{page.relative_to(site_root)}: broken link {link}")
+    sitemap = site_root / "sitemap.xml"
+    if sitemap.exists():
+        sitemap_text = sitemap.read_text(encoding="utf-8")
+        urls = re.findall(r"<loc>(.*?)</loc>", sitemap_text)
+        if len(urls) != target:
+            issues.append(f"sitemap url count is {len(urls)}")
+        if len(set(urls)) != len(urls):
+            issues.append("sitemap has duplicate urls")
+        if not all("/en/" in url or "/es/" in url for url in urls):
+            issues.append("sitemap has url without language prefix")
+    if issues:
+        return False, issues[:50]
+    return True, []
 
 
 def render_page(template: str, topic: Topic, lang: str, robots: str) -> tuple[str, dict[str, str | int | list[str]]]:
@@ -344,7 +457,7 @@ def render_page(template: str, topic: Topic, lang: str, robots: str) -> tuple[st
     return rendered, record
 
 
-def write_index(project: Path) -> None:
+def write_index(site_root: Path) -> None:
     index = """<!doctype html>
 <html lang="en">
 <head>
@@ -353,7 +466,7 @@ def write_index(project: Path) -> None:
   <meta name="robots" content="noindex,follow">
   <title>Dan's Place | Simple fixes. Clear answers.</title>
   <meta name="description" content="Dan's Place provides calm troubleshooting pages in English and Spanish.">
-  <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
   <header class="site-header">
@@ -369,27 +482,29 @@ def write_index(project: Path) -> None:
       <p>This local build contains validated troubleshooting pages in English and Spanish.</p>
       <ul>
         <li><a href="en/wi-fi-windows-laptop-is-not-working.html">Browse English fixes</a></li>
-        <li><a href="es/wi-fi-portatil-windows-no-funciona.html">Ver soluciones en espanol</a></li>
+        <li><a href="es/wi-fi-windows-laptop-is-not-working.html">Ver soluciones en espanol</a></li>
       </ul>
     </article>
   </main>
 </body>
 </html>
 """
-    safe_write(project / "generated/html/index.html", index)
+    safe_write(site_root / "index.html", index)
 
 
 def generate(project: Path, target: int) -> int:
     template = (project / "templates/page.html").read_text(encoding="utf-8")
-    for folder in ["generated/html/en", "generated/html/es", "generated/json/en", "generated/json/es", "content/en", "content/es"]:
-        path = project / folder
-        if path.exists():
-            shutil.rmtree(path)
-        path.mkdir(parents=True, exist_ok=True)
+    if target % 2 != 0:
+        raise SystemExit("target must be even for bilingual parity")
+    staging = project / "deploy_staging"
+    docs = project / "docs"
+    reset_dir(staging)
+    for folder in ["en", "es", "seo", "json/en", "json/es"]:
+        (staging / folder).mkdir(parents=True, exist_ok=True)
+    shutil.copytree(project / "assets", staging / "assets", dirs_exist_ok=True)
 
     accepted = 0
     rejected = 0
-    urls: list[str] = []
     report_rows: list[dict[str, str | int | list[str]]] = []
     robots = "noindex,follow"
 
@@ -407,31 +522,19 @@ def generate(project: Path, target: int) -> int:
                 report_rows.append(record)
                 continue
             slug = str(record["slug"])
-            safe_write(project / f"generated/html/{lang}/{slug}.html", rendered)
-            safe_write(project / f"generated/json/{lang}/{slug}.json", json.dumps(record, indent=2, ensure_ascii=False))
-            safe_write(
-                project / f"content/{lang}/{slug}.md",
-                f"# {record['title']}\n\n{page_text(topic, lang)['intro']}\n",
-            )
-            urls.append(str(record["canonical_url"]))
+            safe_write(staging / f"{lang}/{slug}.html", rendered)
+            safe_write(staging / f"json/{lang}/{slug}.json", json.dumps(record, indent=2, ensure_ascii=False))
             record["status"] = "accepted"
             report_rows.append(record)
             accepted += 1
         if accepted >= target:
             break
 
+    if accepted != target:
+        raise SystemExit(f"accepted {accepted}, expected {target}")
+
     today = date.today().isoformat()
-    sitemap_items = "\n".join(
-        f"  <url><loc>{html.escape(url)}</loc><lastmod>{today}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>"
-        for url in urls
-    )
-    sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{sitemap_items}
-</urlset>
-"""
-    safe_write(project / "seo/sitemaps/sitemap.xml", sitemap)
-    safe_write(project / "generated/xml/sitemap.xml", sitemap)
+    urls = build_sitemap_from_scan(staging)
 
     summary = {
         "site": SITE_NAME,
@@ -445,10 +548,36 @@ def generate(project: Path, target: int) -> int:
         "generated_at": today,
         "phase": "Phase 1: generated and validated silently; noindex is active for controlled rollout.",
     }
-    safe_write(project / "seo/reports/summary.json", json.dumps(summary, indent=2))
-    safe_write(project / "validation/report.json", json.dumps(report_rows, indent=2, ensure_ascii=False))
+    safe_write(staging / "seo/summary.json", json.dumps(summary, indent=2))
+    safe_write(staging / "seo/validation-report.json", json.dumps(report_rows, indent=2, ensure_ascii=False))
+    write_index(staging)
+    ok, issues = validate_site(staging, target)
+    if not ok:
+        safe_write(project / "logs/deployment-failure.json", json.dumps({"issues": issues}, indent=2))
+        raise SystemExit("staging validation failed")
+
+    replacement = project / ".docs_next"
+    if replacement.exists():
+        shutil.rmtree(replacement)
+    shutil.copytree(staging, replacement)
+    old_docs = project / ".docs_old"
+    if old_docs.exists():
+        shutil.rmtree(old_docs)
+    if docs.exists():
+        docs.replace(old_docs)
+    replacement.replace(docs)
+    if old_docs.exists():
+        shutil.rmtree(old_docs)
+
+    ok, issues = validate_site(docs, target)
+    if not ok:
+        safe_write(project / "logs/deployment-failure.json", json.dumps({"issues": issues}, indent=2))
+        raise SystemExit("docs validation failed")
+    if sorted(p.relative_to(staging).as_posix() for p in staging.rglob("*") if p.is_file()) != sorted(
+        p.relative_to(docs).as_posix() for p in docs.rglob("*") if p.is_file()
+    ):
+        raise SystemExit("staging and docs file lists differ")
     safe_write(project / "logs/generation.log", json.dumps(summary, indent=2))
-    write_index(project)
     return accepted
 
 
