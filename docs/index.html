@@ -3,680 +3,74 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex,follow">
-  <title>Dan's Place | Simple fixes. Clear answers.</title>
-  <meta name="description" content="A calm troubleshooting help center for software and device problems.">
-  <style>
-    :root {
-      --ink: #171427;
-      --muted: #686277;
-      --line: #e9e3f1;
-      --surface: #ffffff;
-      --soft: #f8f6fb;
-      --purple: #6a1b9a;
-      --indigo: #4f46e5;
-      --violet: #a78bfa;
-      --teal: #0f9f8f;
-      --accent: #7c3aed;
-      --glass: rgba(255, 255, 255, .10);
-      --shadow-sm: 0 10px 24px rgba(37, 26, 58, .08);
-      --shadow-md: 0 20px 48px rgba(55, 34, 92, .14);
-      --shadow-lg: 0 24px 40px rgba(0, 0, 0, .35);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 50% 0%, rgba(106, 27, 154, .15), transparent 34%),
-        linear-gradient(180deg, #ffffff 0%, #fbfaff 46%, #ffffff 100%);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.62;
-    }
-
-    a {
-      color: inherit;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 18px clamp(20px, 5vw, 56px);
-      border-bottom: 1px solid rgba(233, 227, 241, .9);
-      background: rgba(255, 255, 255, .88);
-      backdrop-filter: blur(18px);
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--ink);
-      text-decoration: none;
-      font-weight: 800;
-    }
-
-    .brand-mark {
-      display: grid;
-      width: 42px;
-      height: 42px;
-      place-items: center;
-      border-radius: 12px;
-      color: #fff;
-      background: linear-gradient(135deg, var(--purple), var(--indigo) 58%, var(--violet));
-      box-shadow: 0 14px 32px rgba(106, 27, 154, .25), inset 0 1px 0 rgba(255, 255, 255, .34);
-    }
-
-    .brand small {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 650;
-    }
-
-    .nav {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      min-height: 38px;
-      padding: 8px 14px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
-      color: var(--ink);
-      font-size: 14px;
-      font-weight: 750;
-      text-decoration: none;
-      box-shadow: var(--shadow-sm);
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }
-
-    .pill:hover,
-    .category-card:hover,
-    .feature-link:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-      border-color: rgba(106, 27, 154, .2);
-    }
-
-    .hero {
-      padding: clamp(48px, 9vw, 104px) 20px 42px;
-    }
-
-    .hero-inner {
-      max-width: 980px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      padding: 7px 12px;
-      border-radius: 999px;
-      color: var(--purple);
-      background: rgba(106, 27, 154, .08);
-      font-size: 13px;
-      font-weight: 850;
-    }
-
-    h1 {
-      margin: 16px 0 12px;
-      font-size: clamp(42px, 8vw, 76px);
-      line-height: 1.02;
-      letter-spacing: 0;
-    }
-
-    .hero-copy {
-      max-width: 680px;
-      margin: 0 auto 28px;
-      color: var(--muted);
-      font-size: clamp(17px, 2vw, 20px);
-    }
-
-    .search-shell {
-      position: relative;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 10px;
-      border: 1px solid rgba(124, 58, 237, .18);
-      border-radius: 24px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, .72), var(--glass));
-      box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, .68);
-      backdrop-filter: blur(14px);
-      transition: border-color .18s ease, box-shadow .18s ease;
-    }
-
-    .search-shell:focus-within {
-      border-color: rgba(124, 58, 237, .55);
-      box-shadow: var(--shadow-lg), 0 0 36px rgba(124, 58, 237, .25), inset 0 1px 0 rgba(255, 255, 255, .72);
-    }
-
-    .search-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .search-icon {
-      display: grid;
-      flex: 0 0 44px;
-      width: 44px;
-      height: 44px;
-      place-items: center;
-      border-radius: 14px;
-      color: var(--accent);
-      background: rgba(124, 58, 237, .10);
-      font-weight: 900;
-    }
-
-    .search-input {
-      appearance: none;
-      width: 100%;
-      min-height: 54px;
-      border: 0;
-      outline: 0;
-      background: transparent;
-      color: var(--ink);
-      font: inherit;
-      font-size: 18px;
-    }
-
-    .search-input::-webkit-search-cancel-button {
-      cursor: pointer;
-    }
-
-    .search-note {
-      margin: 8px 12px 4px;
-      color: var(--muted);
-      font-size: 13px;
-      text-align: left;
-    }
-
-    .search-results {
-      position: absolute;
-      top: calc(100% + 10px);
-      right: 0;
-      left: 0;
-      z-index: 10;
-      max-height: min(520px, 62vh);
-      overflow: auto;
-      padding: 10px;
-      border: 1px solid rgba(124, 58, 237, .16);
-      border-radius: 20px;
-      background: rgba(255, 255, 255, .90);
-      box-shadow: 0 24px 40px rgba(0, 0, 0, .35);
-      backdrop-filter: blur(14px);
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(-8px);
-      transition: opacity .18s ease, transform .18s ease;
-    }
-
-    .search-results.is-visible {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-
-    .result-group + .result-group {
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px solid rgba(124, 58, 237, .10);
-    }
-
-    .result-heading {
-      padding: 4px 10px 6px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 850;
-      text-align: left;
-      text-transform: uppercase;
-    }
-
-    .result-link {
-      display: grid;
-      gap: 4px;
-      width: 100%;
-      padding: 10px;
-      border-radius: 12px;
-      color: var(--ink);
-      text-align: left;
-      text-decoration: none;
-      transition: background-color .16s ease, transform .16s ease;
-    }
-
-    .result-link:hover,
-    .result-link:focus {
-      background: rgba(124, 58, 237, .10);
-      outline: 0;
-      transform: scale(1.01);
-    }
-
-    .result-title {
-      font-size: 14px;
-      font-weight: 800;
-      line-height: 1.3;
-    }
-
-    .result-meta {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
-    }
-
-    .result-empty {
-      padding: 16px 10px;
-      color: var(--muted);
-      font-size: 14px;
-      text-align: left;
-    }
-
-    .section {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 44px 20px;
-    }
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 18px;
-      align-items: flex-end;
-      margin-bottom: 18px;
-    }
-
-    .section h2 {
-      margin: 0;
-      font-size: clamp(24px, 4vw, 34px);
-      line-height: 1.15;
-    }
-
-    .section p {
-      margin: 8px 0 0;
-      color: var(--muted);
-    }
-
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .category-card {
-      min-height: 168px;
-      padding: 20px;
-      border: 1px solid rgba(124, 58, 237, .14);
-      border-radius: 8px;
-      background:
-        radial-gradient(circle at top right, rgba(124, 58, 237, .14), transparent 42%),
-        linear-gradient(145deg, rgba(255, 255, 255, .74), var(--glass));
-      color: var(--ink);
-      text-decoration: none;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, .12);
-      backdrop-filter: blur(14px);
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }
-
-    .category-card:hover {
-      transform: translateY(-3px) scale(1.01);
-      box-shadow: 0 24px 40px rgba(0, 0, 0, .20);
-      border-color: rgba(124, 58, 237, .28);
-    }
-
-    .card-icon {
-      display: grid;
-      width: 44px;
-      height: 44px;
-      place-items: center;
-      margin-bottom: 18px;
-      border-radius: 14px;
-      color: var(--purple);
-      background: linear-gradient(135deg, rgba(106, 27, 154, .14), rgba(79, 70, 229, .12));
-      font-weight: 900;
-    }
-
-    .category-card strong {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 18px;
-    }
-
-    .category-card span {
-      display: block;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .feature-row {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .feature-link {
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: var(--surface);
-      color: var(--ink);
-      text-decoration: none;
-      box-shadow: var(--shadow-sm);
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }
-
-    .site-footer {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 28px 20px 44px;
-      color: var(--muted);
-      border-top: 1px solid var(--line);
-    }
-
-    @media (max-width: 860px) {
-      .topbar {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .category-grid,
-      .feature-row {
-        grid-template-columns: 1fr;
-      }
-
-      .search-row {
-        align-items: flex-start;
-      }
-
-      .search-input {
-        font-size: 16px;
-      }
-    }
-  </style>
+  <meta name="robots" content="index,follow">
+  <title>Dan's Place | Calm technology help</title>
+  <meta name="description" content="Calm, step-by-step help for everyday technology problems across devices, accounts, browsers, Wi-Fi, printers, and everyday software.">
+  <link rel="canonical" href="https://dannynuhi.github.io/dans-place/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dan's Place">
+  <meta property="og:title" content="Dan's Place | Calm technology help">
+  <meta property="og:description" content="Calm, step-by-step help for everyday technology problems across devices, accounts, browsers, Wi-Fi, printers, and everyday software.">
+  <meta property="og:url" content="https://dannynuhi.github.io/dans-place/">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="assets/css/site.css">
+    <script>
+    window.DANS_PLACE_CONFIG = {
+      canonicalUrl: "https://dannynuhi.github.io/dans-place/",
+      ga4MeasurementId: "",
+      googleSearchConsoleVerification: ""
+    };
+  </script>
 </head>
 <body>
-  <header class="topbar">
+  <header class="site-header">
     <a class="brand" href="index.html" aria-label="Dan's Place home">
       <span class="brand-mark">D</span>
-      <span>
-        <strong>Dan's Place</strong>
-        <small>Simple fixes. Clear answers.</small>
-      </span>
+      <span><strong>Dan's Place</strong><small>Simple fixes. Clear answers.</small></span>
     </a>
-    <nav class="nav" aria-label="Primary">
-      <a class="pill" href="en/index.html">English</a>
-      <a class="pill" href="es/index.html">Espanol</a>
+    <nav aria-label="Primary">
+      <a href="en/index.html">English</a>
+      <a href="es/index.html">Espanol</a>
     </nav>
   </header>
-
   <main>
-    <section class="hero" aria-labelledby="home-title">
-      <div class="hero-inner">
-        <span class="eyebrow">Troubleshooting help center</span>
+    <section class="home-hero" aria-labelledby="home-title">
+      <div class="home-hero-inner">
         <h1 id="home-title">Dan's Place</h1>
-        <p class="hero-copy">A calm place to fix software, device, login, browser, network, and printer problems without the panic-scroll.</p>
-        <div class="search-shell" role="search" aria-label="Visual search preview">
-          <div class="search-row">
-            <span class="search-icon" aria-hidden="true">S</span>
-            <input id="search-input" class="search-input" type="search" placeholder="Search Wi-Fi, login, printer, browser..." aria-label="Search Dan's Place" autocomplete="off">
-          </div>
-          <div id="search-results" class="search-results" aria-live="polite"></div>
-          <p class="search-note">Instant results from English and Spanish troubleshooting pages.</p>
+        <p>Calm, step-by-step help for everyday technology problems.</p>
+        <div class="home-search site-search" role="search">
+          <input class="site-search-input" type="search" aria-label="Search Dan's Place" autocomplete="off" data-search-index="assets/search-index.json" data-url-prefix="">
+          <div class="site-search-results" aria-live="polite"></div>
         </div>
       </div>
     </section>
-
-    <section class="section" aria-labelledby="category-title">
-      <div class="section-head">
-        <div>
-          <h2 id="category-title">Start with the kind of problem</h2>
-          <p>Static category cards point directly into known-good pages. No dataset routes are changed.</p>
-        </div>
+    <section class="home-section" aria-labelledby="popular-title">
+      <div class="home-section-head">
+        <h2 id="popular-title">Popular Categories</h2>
+        <p>Start with the kind of problem and move at a comfortable pace.</p>
       </div>
       <div class="category-grid">
-        <a class="category-card" href="en/wi-fi-windows-laptop-is-not-working.html">
-          <span class="card-icon">Wi</span>
-          <strong>WiFi / Network issues</strong>
-          <span>Connection drops, routers, wireless setup, and pairing problems.</span>
-        </a>
-        <a class="category-card" href="en/account-sign-in-windows-laptop-is-not-working.html">
-          <span class="card-icon">Li</span>
-          <strong>Login / Authentication</strong>
-          <span>Sign-in loops, account access, password checks, and session problems.</span>
-        </a>
-        <a class="category-card" href="en/browser-windows-laptop-runs-slowly.html">
-          <span class="card-icon">Br</span>
-          <strong>Chrome / Browser errors</strong>
-          <span>Slow pages, downloads, tabs, browser settings, and page errors.</span>
-        </a>
-        <a class="category-card" href="en/software-update-windows-laptop-shows-an-error.html">
-          <span class="card-icon">OS</span>
-          <strong>Windows / OS issues</strong>
-          <span>Updates, settings, system behavior, and everyday computer problems.</span>
-        </a>
-        <a class="category-card" href="en/camera-webcam-is-not-working.html">
-          <span class="card-icon">Dv</span>
-          <strong>Device issues</strong>
-          <span>Cameras, audio, keyboards, storage, screens, and accessories.</span>
-        </a>
-        <a class="category-card" href="en/printer-wireless-printer-is-not-working.html">
-          <span class="card-icon">Pr</span>
-          <strong>Printer issues</strong>
-          <span>Wireless printers, office printers, stuck jobs, and setup checks.</span>
-        </a>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="browse-title">
-      <div class="section-head">
-        <div>
-          <h2 id="browse-title">Browse safely</h2>
-          <p>Use the generated language indexes when you need the full dataset.</p>
-        </div>
-      </div>
-      <div class="feature-row">
-        <a class="feature-link" href="en/index.html">
-          <strong>English index</strong>
-          <p>Open the generated English index without changing any article routes.</p>
-        </a>
-        <a class="feature-link" href="es/index.html">
-          <strong>Spanish index</strong>
-          <p>Open the generated Spanish index without changing any article routes.</p>
-        </a>
+        <a class="category-card" href="en/wi-fi-windows-laptop-is-not-working.html"><strong>WiFi / Network issues</strong><span>Connection drops, routers, wireless setup, and pairing problems.</span></a>
+        <a class="category-card" href="en/account-sign-in-windows-laptop-is-not-working.html"><strong>Login / Authentication</strong><span>Sign-in loops, account access, password checks, and session problems.</span></a>
+        <a class="category-card" href="en/browser-windows-laptop-runs-slowly.html"><strong>Chrome / Browser errors</strong><span>Slow pages, downloads, tabs, browser settings, and page errors.</span></a>
+        <a class="category-card" href="en/software-update-windows-laptop-shows-an-error.html"><strong>Windows / OS issues</strong><span>Updates, settings, system behavior, and everyday computer problems.</span></a>
+        <a class="category-card" href="en/camera-webcam-is-not-working.html"><strong>Device issues</strong><span>Cameras, audio, keyboards, storage, screens, and accessories.</span></a>
+        <a class="category-card" href="en/printer-wireless-printer-is-not-working.html"><strong>Printer issues</strong><span>Wireless printers, office printers, stuck jobs, and setup checks.</span></a>
       </div>
     </section>
   </main>
-
   <footer class="site-footer">
-    Dan's Place keeps troubleshooting calm, practical, and easy to scan.
+    <div>
+      <strong>Dan's Place</strong>
+      <p>Calm, step-by-step help for everyday technology problems.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="contact.html">Contact</a>
+    </nav>
   </footer>
-  <script>
-    (function () {
-      var input = document.getElementById('search-input');
-      var results = document.getElementById('search-results');
-      var searchIndex = [];
-      var searchTimer = null;
-      var categoryRules = [
-        { prefix: 'account-sign-in', label: 'Login Issues' },
-        { prefix: 'wi-fi', label: 'Connectivity Issues' },
-        { prefix: 'chrome', label: 'Browser Issues' },
-        { prefix: 'printer', label: 'Hardware Issues' }
-      ];
-
-      if (!input || !results) {
-        return;
-      }
-
-      fetch('assets/search-index.json')
-        .then(function (response) {
-          if (!response.ok) {
-            throw new Error('Search index failed to load');
-          }
-          return response.json();
-        })
-        .then(function (data) {
-          searchIndex = Array.isArray(data) ? data : [];
-        })
-        .catch(function () {
-          searchIndex = [];
-        });
-
-      function inferCategory(item) {
-        var match = categoryRules.find(function (rule) {
-          return item.title.indexOf(rule.prefix) === 0;
-        });
-        return match ? match.label : (item.lang === 'es' ? 'Spanish Results' : 'English Results');
-      }
-
-      function scoreItem(item, query) {
-        if (item.title === query) {
-          return 100;
-        }
-        if (item.keywords.indexOf(query) !== -1) {
-          return 70;
-        }
-        if (item.title.indexOf(query) !== -1) {
-          return 40;
-        }
-        if (item.keywords.some(function (keyword) { return keyword.indexOf(query) !== -1; })) {
-          return 40;
-        }
-        return 0;
-      }
-
-      function formatTitle(title) {
-        return title.split('-').map(function (word) {
-          return word.charAt(0).toUpperCase() + word.slice(1);
-        }).join(' ');
-      }
-
-      function setVisible(isVisible) {
-        results.classList.toggle('is-visible', isVisible);
-      }
-
-      function render(matches, query) {
-        if (!query) {
-          results.innerHTML = '';
-          setVisible(false);
-          return;
-        }
-
-        if (!matches.length) {
-          results.innerHTML = '<div class="result-empty">No matching fixes found.</div>';
-          setVisible(true);
-          return;
-        }
-
-        var groups = matches.reduce(function (accumulator, item) {
-          var category = inferCategory(item);
-          if (!accumulator[category]) {
-            accumulator[category] = [];
-          }
-          accumulator[category].push(item);
-          return accumulator;
-        }, {});
-
-        results.innerHTML = Object.keys(groups).map(function (category) {
-          var links = groups[category].map(function (item) {
-            return '<a class="result-link" href="' + item.url + '">' +
-              '<span class="result-title">' + formatTitle(item.title) + '</span>' +
-              '<span class="result-meta">' + item.lang.toUpperCase() + ' | ' + item.url + '</span>' +
-              '</a>';
-          }).join('');
-          return '<div class="result-group"><div class="result-heading">' + category + '</div>' + links + '</div>';
-        }).join('');
-        setVisible(true);
-      }
-
-      function rankMatches(entries) {
-        var byScore = entries.reduce(function (groups, entry) {
-          if (!groups[entry.score]) {
-            groups[entry.score] = [];
-          }
-          groups[entry.score].push(entry);
-          return groups;
-        }, {});
-
-        return Object.keys(byScore).map(Number).sort(function (a, b) {
-          return b - a;
-        }).reduce(function (ranked, score) {
-          var group = byScore[score];
-          var en = group.filter(function (entry) { return entry.item.lang === 'en'; });
-          var es = group.filter(function (entry) { return entry.item.lang === 'es'; });
-          var other = group.filter(function (entry) {
-            return entry.item.lang !== 'en' && entry.item.lang !== 'es';
-          });
-          var max = Math.max(en.length, es.length, other.length);
-
-          for (var i = 0; i < max; i += 1) {
-            if (en[i]) {
-              ranked.push(en[i]);
-            }
-            if (es[i]) {
-              ranked.push(es[i]);
-            }
-            if (other[i]) {
-              ranked.push(other[i]);
-            }
-          }
-
-          return ranked;
-        }, []);
-      }
-
-      function search() {
-        var query = input.value.trim().toLowerCase();
-        var matches = searchIndex.map(function (item, index) {
-          return { item: item, score: scoreItem(item, query), index: index };
-        }).filter(function (entry) {
-          return entry.score > 0;
-        }).sort(function (a, b) {
-          return b.score - a.score || a.index - b.index;
-        });
-
-        matches = rankMatches(matches).slice(0, 10).map(function (entry) {
-          return entry.item;
-        });
-
-        render(matches, query);
-      }
-
-      input.addEventListener('input', function () {
-        window.clearTimeout(searchTimer);
-        searchTimer = window.setTimeout(search, 150);
-      });
-
-      input.addEventListener('focus', function () {
-        if (input.value.trim()) {
-          search();
-        }
-      });
-
-      document.addEventListener('click', function (event) {
-        if (!event.target.closest('.search-shell')) {
-          setVisible(false);
-        }
-      });
-
-      input.addEventListener('blur', function () {
-        window.setTimeout(function () {
-          if (!document.activeElement || !document.activeElement.closest('.search-results')) {
-            setVisible(false);
-          }
-        }, 160);
-      });
-    })();
-  </script>
+  <script src="assets/js/site.js" defer></script>
 </body>
 </html>

@@ -43,7 +43,7 @@ def main() -> int:
             if not target.exists():
                 continue
             source_text = normalized(source.read_text(encoding="utf-8"))
-            target_text = target.read_text(encoding="utf-8")
+            target_text = normalized(target.read_text(encoding="utf-8"))
             if source_text != target_text:
                 issues.append(f"{target.relative_to(PROJECT)} differs from generated/html mirror")
             if "<h1>" not in target_text:
@@ -54,7 +54,7 @@ def main() -> int:
     source_index = GENERATED / "index.html"
     docs_index = DOCS / "index.html"
     if source_index.exists():
-        if normalized(source_index.read_text(encoding="utf-8")) != docs_index.read_text(encoding="utf-8"):
+        if normalized(source_index.read_text(encoding="utf-8")) != normalized(docs_index.read_text(encoding="utf-8")):
             issues.append("docs/index.html differs from generated/html/index.html mirror")
     else:
         if "<h1>Missing Index</h1>" not in docs_index.read_text(encoding="utf-8"):

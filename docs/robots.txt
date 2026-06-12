@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dannynuhi.github.io/dans-place/sitemap.xml
