@@ -5,103 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,follow">
   <title>Dan's Place | Simple fixes. Clear answers.</title>
-  <meta name="description" content="Search calm troubleshooting guides in English and Spanish.">
-  <link rel="stylesheet" href="assets/css/site.css">
+  <meta name="description" content="Dan's Place provides calm troubleshooting pages in English and Spanish.">
+  <link rel="stylesheet" href="/assets/css/site.css">
 </head>
 <body>
-  <header class="topbar">
+  <header class="site-header">
     <a class="brand" href="index.html" aria-label="Dan's Place home">
       <span class="brand-mark">D</span>
       <span><strong>Dan's Place</strong><small>Simple fixes. Clear answers.</small></span>
     </a>
-    <nav class="nav-actions" aria-label="Primary">
-      <a class="pill" href="#search">Search</a>
-      <a class="pill" href="#categories">Categories</a>
-      <a class="pill" href="#browse">Browse</a>
-    </nav>
   </header>
-  <main>
-    <section class="hero" id="search">
-      <div class="hero-inner">
-        <span class="eyebrow">Troubleshooting help center</span>
-        <h1>Dan's Place</h1>
-        <p>Calm troubleshooting assistant for software and device problems. Search first, choose a category second, browse only when you want to explore.</p>
-        <div class="search-shell" role="search">
-          <div class="search-row">
-            <span class="search-icon" aria-hidden="true">S</span>
-            <input id="help-search" class="search-input" type="search" autocomplete="off" placeholder="Search Wi-Fi, login, printer, Windows, browser..." aria-label="Search all fixes">
-            <select id="language-filter" class="pill" aria-label="Language filter">
-              <option value="all">All</option>
-              <option value="en">EN</option>
-              <option value="es">ES</option>
-            </select>
-          </div>
-          <div id="search-results" class="search-results" role="listbox" aria-label="Search results"></div>
-        </div>
-      </div>
-    </section>
-    <section class="section" id="categories">
-      <div class="section-head">
-        <div>
-          <h2>Start with the kind of problem</h2>
-          <p>Shortcuts keep the path simple when you already know what feels broken.</p>
-        </div>
-      </div>
-      <div class="category-grid"><a class="card-link" href="#browse" data-category="network">
-          <span class="card-icon">Wi</span>
-          <strong>WiFi / Network issues</strong>
-          <span>Connection drops, router trouble, Bluetooth pairing. 1520 fixes.</span>
-        </a>
-<a class="card-link" href="#browse" data-category="auth">
-          <span class="card-icon">Li</span>
-          <strong>Login / Authentication</strong>
-          <span>Passwords, sign-in loops, account access. 520 fixes.</span>
-        </a>
-<a class="card-link" href="#browse" data-category="browser">
-          <span class="card-icon">Br</span>
-          <strong>Chrome / Browser errors</strong>
-          <span>Browser crashes, tabs, downloads, page errors. 460 fixes.</span>
-        </a>
-<a class="card-link" href="#browse" data-category="os">
-          <span class="card-icon">OS</span>
-          <strong>Windows / OS issues</strong>
-          <span>Updates, settings, system behavior. 1135 fixes.</span>
-        </a>
-<a class="card-link" href="#browse" data-category="device">
-          <span class="card-icon">Dv</span>
-          <strong>Device issues</strong>
-          <span>Cameras, audio, storage, keyboards, screens. 3315 fixes.</span>
-        </a>
-<a class="card-link" href="#browse" data-category="printer">
-          <span class="card-icon">Pr</span>
-          <strong>Printer issues</strong>
-          <span>Wireless printers, office printers, print errors. 550 fixes.</span>
-        </a></div>
-    </section>
-    <section class="section" id="browse">
-      <div class="browse-panel" id="browse-panel" data-open="false">
-        <button class="browse-toggle" id="browse-toggle" type="button">Browse the full index without loading everything at once</button>
-        <div class="browse-content">
-          <div class="browse-controls">
-            <select class="pill" id="browse-category" aria-label="Browse category">
-              <option value="all">All categories</option>
-              <option value="network">WiFi / Network issues</option>
-              <option value="auth">Login / Authentication</option>
-              <option value="browser">Chrome / Browser errors</option>
-              <option value="os">Windows / OS issues</option>
-              <option value="device">Device issues</option>
-              <option value="printer">Printer issues</option>
-            </select>
-            <button class="pill" id="browse-prev" type="button">Previous</button>
-            <button class="pill" id="browse-next" type="button">Next</button>
-            <span class="pill" id="browse-count">7500 fixes</span>
-          </div>
-          <div id="browse-list" class="browse-list" aria-live="polite"></div>
-        </div>
-      </div>
-    </section>
+  <main class="page-shell">
+    <article class="article">
+      <h1>Dan's Place</h1>
+      <p>Simple fixes. Clear answers.</p>
+      <p>This local build contains validated troubleshooting pages in English and Spanish.</p>
+      <ul>
+        <li><a href="en/wi-fi-windows-laptop-is-not-working.html">Browse English fixes</a></li>
+        <li><a href="es/wi-fi-portatil-windows-no-funciona.html">Ver soluciones en espanol</a></li>
+      </ul>
+    </article>
   </main>
-  <footer class="site-footer">Dan's Place is built for fast answers, clear steps, and low-stress troubleshooting.</footer>
-  <script src="assets/js/help-center.js" defer></script>
 </body>
 </html>
