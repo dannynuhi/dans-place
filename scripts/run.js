@@ -1,12 +1,6 @@
 const { execSync } = require("child_process");
 
-function step(cmd) {
-  execSync(cmd, { stdio: "inherit" });
-}
+execSync("node scripts/orchestrate.js", { stdio: "inherit" });
+execSync("node scripts/sitemap.js", { stdio: "inherit" });
 
-console.log("START PIPELINE");
-
-step("node scripts/orchestrate.js");
-step("node scripts/sitemap.js");
-
-console.log("DONE PIPELINE");
+console.log("BUILD_OK");
