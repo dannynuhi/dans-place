@@ -17,31 +17,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies (if any)
-        run: |
-          node -v
-
-      - name: Validate structure lock
-        run: |
-          test -f index.html
-          test -d pages
-          test -f .structure-lock.json
-
-      - name: Run build validator
-        run: |
-          node scripts/validate.js
-
-      - name: Run pipeline
-        run: |
-          node scripts/run.js
-
-      - name: Verify HTML output exists
-        run: |
-          FILES=$(find . -maxdepth 2 -name "*.html" | wc -l)
-          if [ "$FILES" -lt 2 ]; then
-            echo "FAIL: insufficient html output"
-            exit 1
-          fi
+      - name: Validate docs production output
+        run: python3 build/validate_docs.py
 
   deploy:
     needs: validate
@@ -59,7 +36,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: docs
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
