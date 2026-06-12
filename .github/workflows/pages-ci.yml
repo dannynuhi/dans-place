@@ -1,0 +1,65 @@
+name: Pages CI Gate
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies (if any)
+        run: |
+          node -v
+
+      - name: Validate structure lock
+        run: |
+          test -f index.html
+          test -d pages
+          test -f .structure-lock.json
+
+      - name: Run build validator
+        run: |
+          node scripts/validate.js
+
+      - name: Run pipeline
+        run: |
+          node scripts/run.js
+
+      - name: Verify HTML output exists
+        run: |
+          FILES=$(find . -maxdepth 2 -name "*.html" | wc -l)
+          if [ "$FILES" -lt 2 ]; then
+            echo "FAIL: insufficient html output"
+            exit 1
+          fi
+
+  deploy:
+    needs: validate
+    if: github.ref == 'refs/heads/main'
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
