@@ -1,0 +1,9 @@
+{
+  "entry": "index.html",
+  "pages": "pages/",
+  "rules": {
+    "no_public": true,
+    "no_output": true,
+    "no_docs": true
+  }
+}
