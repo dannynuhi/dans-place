@@ -3,13 +3,51 @@
 <head>
   <meta charset="utf-8">
   <title>Dan's Place</title>
+  <style>
+    body {
+      font-family: system-ui, Arial;
+      max-width: 900px;
+      margin: 60px auto;
+      background: #ffffff;
+      color: #111;
+    }
+    h1 {
+      color: #6a1b9a;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    a {
+      padding: 12px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #333;
+    }
+    a:hover {
+      border-color: #6a1b9a;
+      color: #6a1b9a;
+    }
+  </style>
 </head>
 <body>
-  <h1>Dan's Place</h1>
-  <p>System active</p>
-  <ul>
-    <li><a href="en/">English</a></li>
-    <li><a href="es/">Español</a></li>
-  </ul>
+
+<h1>Dan's Place</h1>
+<p>Calm troubleshooting system for everyday tech problems.</p>
+
+<h2>Categories</h2>
+
+<div class="grid">
+  <a href="/dans-place/en/account-sign-in-android-phone-is-not-working.html">Android Sign-In Issues</a>
+  <a href="/dans-place/en/wi-fi-work-laptop-will-not-connect.html">WiFi Laptop Issues</a>
+  <a href="/dans-place/en/wi-fi-wireless-printer-will-not-connect.html">Printer Issues</a>
+  <a href="/dans-place/en/account-sign-in-android-tablet-is-not-working.html">Tablet Login Issues</a>
+  <a href="/dans-place/es/">Español Index</a>
+  <a href="/dans-place/en/">All English Pages</a>
+</div>
+
 </body>
 </html>
