@@ -1,0 +1,50 @@
+[
+  {
+    "id": "crash_windows_usage_current",
+    "file": "crash_windows_usage_current.html"
+  },
+  {
+    "id": "crash_windows_update_current",
+    "file": "crash_windows_update_current.html"
+  },
+  {
+    "id": "crash_chrome_usage_current",
+    "file": "crash_chrome_usage_current.html"
+  },
+  {
+    "id": "crash_chrome_update_current",
+    "file": "crash_chrome_update_current.html"
+  },
+  {
+    "id": "login_windows_usage_current",
+    "file": "login_windows_usage_current.html"
+  },
+  {
+    "id": "login_windows_update_current",
+    "file": "login_windows_update_current.html"
+  },
+  {
+    "id": "login_chrome_usage_current",
+    "file": "login_chrome_usage_current.html"
+  },
+  {
+    "id": "login_chrome_update_current",
+    "file": "login_chrome_update_current.html"
+  },
+  {
+    "id": "error_windows_usage_current",
+    "file": "error_windows_usage_current.html"
+  },
+  {
+    "id": "error_windows_update_current",
+    "file": "error_windows_update_current.html"
+  },
+  {
+    "id": "error_chrome_usage_current",
+    "file": "error_chrome_usage_current.html"
+  },
+  {
+    "id": "error_chrome_update_current",
+    "file": "error_chrome_update_current.html"
+  }
+]
