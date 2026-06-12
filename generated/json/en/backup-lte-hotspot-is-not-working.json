@@ -1,0 +1,21 @@
+{
+  "site": "Dan's Place",
+  "project": "dans-place",
+  "tagline": "Simple fixes. Clear answers.",
+  "lang": "en",
+  "slug": "backup-lte-hotspot-is-not-working",
+  "title": "How to fix backup when your LTE hotspot is not working",
+  "meta_title": "How to fix backup when your LTE hotspot is not working | Dan's Place",
+  "meta_description": "If backup on your LTE hotspot is not working, start with the simple checks below. These steps are calm, reversible, and meant to help you narrow the cause ",
+  "keywords": [
+    "backup",
+    "LTE hotspot",
+    "is not working",
+    "troubleshooting",
+    "simple fix",
+    "Dan's Place"
+  ],
+  "canonical_url": "https://example.com/en/backup-lte-hotspot-is-not-working.html",
+  "robots": "noindex,follow",
+  "score": 10
+}

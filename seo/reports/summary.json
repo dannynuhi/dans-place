@@ -1,0 +1,15 @@
+{
+  "site": "Dan's Place",
+  "project": "dans-place",
+  "tagline": "Simple fixes. Clear answers.",
+  "target": 7500,
+  "accepted": 7500,
+  "rejected": 0,
+  "languages": [
+    "en",
+    "es"
+  ],
+  "robots": "noindex,follow",
+  "generated_at": "2026-06-12",
+  "phase": "Phase 1: generated and validated silently; noindex is active for controlled rollout."
+}

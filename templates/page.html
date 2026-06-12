@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="{{LANG}}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="{{ROBOTS}}">
+  <title>{{META_TITLE}}</title>
+  <meta name="description" content="{{META_DESCRIPTION}}">
+  <meta name="keywords" content="{{KEYWORDS}}">
+  <link rel="canonical" href="{{CANONICAL_URL}}">
+  <link rel="stylesheet" href="/assets/css/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="Dan's Place home">
+      <span class="brand-mark">D</span>
+      <span>
+        <strong>Dan's Place</strong>
+        <small>Simple fixes. Clear answers.</small>
+      </span>
+    </a>
+    <nav aria-label="Language">
+      <a href="{{ALT_URL}}">{{ALT_LABEL}}</a>
+    </nav>
+  </header>
+  <main class="page-shell">
+    <article class="article">
+      {{CONTENT}}
+    </article>
+    <aside class="related" aria-label="{{RELATED_LABEL}}">
+      <h2>{{RELATED_HEADING}}</h2>
+      <ul>
+        {{INTERNAL_LINKS}}
+      </ul>
+    </aside>
+  </main>
+  <footer class="site-footer">
+    <p>Dan's Place helps with calm, practical troubleshooting steps. Review device-specific safety guidance when a fix involves power, batteries, accounts, or personal data.</p>
+  </footer>
+</body>
+</html>

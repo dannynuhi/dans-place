@@ -1,0 +1,21 @@
+{
+  "site": "Dan's Place",
+  "project": "dans-place",
+  "tagline": "Simple fixes. Clear answers.",
+  "lang": "en",
+  "slug": "backup-sd-card-runs-slowly",
+  "title": "How to fix backup when your SD card runs slowly",
+  "meta_title": "How to fix backup when your SD card runs slowly | Dan's Place",
+  "meta_description": "If backup on your SD card runs slowly, start with the simple checks below. These steps are calm, reversible, and meant to help you narrow the cause before ",
+  "keywords": [
+    "backup",
+    "SD card",
+    "runs slowly",
+    "troubleshooting",
+    "simple fix",
+    "Dan's Place"
+  ],
+  "canonical_url": "https://example.com/en/backup-sd-card-runs-slowly.html",
+  "robots": "noindex,follow",
+  "score": 10
+}

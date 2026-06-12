@@ -1,0 +1,21 @@
+{
+  "site": "Dan's Place",
+  "project": "dans-place",
+  "tagline": "Simple fixes. Clear answers.",
+  "lang": "en",
+  "slug": "backup-nas-drive-runs-slowly",
+  "title": "How to fix backup when your NAS drive runs slowly",
+  "meta_title": "How to fix backup when your NAS drive runs slowly | Dan's Place",
+  "meta_description": "If backup on your NAS drive runs slowly, start with the simple checks below. These steps are calm, reversible, and meant to help you narrow the cause befor",
+  "keywords": [
+    "backup",
+    "NAS drive",
+    "runs slowly",
+    "troubleshooting",
+    "simple fix",
+    "Dan's Place"
+  ],
+  "canonical_url": "https://example.com/en/backup-nas-drive-runs-slowly.html",
+  "robots": "noindex,follow",
+  "score": 10
+}
