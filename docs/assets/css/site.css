@@ -143,3 +143,57 @@ a { color: inherit; }
 .category-card strong { display: block; margin-bottom: 9px; font-size: 18px; }
 .category-card span { display: block; color: var(--muted); font-size: 14px; }
 @media (max-width: 860px) { .category-grid { grid-template-columns: 1fr; } }
+
+.trust-section,
+.trust-page {
+  margin-top: 2rem;
+}
+
+.trust-section {
+  padding: 2rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 18px 45px rgba(31, 41, 55, 0.08);
+}
+
+.trust-section h2,
+.trust-page h1 {
+  margin-top: 0.35rem;
+}
+
+.trust-section p,
+.trust-page p,
+.trust-page li {
+  line-height: 1.75;
+}
+
+.trust-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.trust-links a {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  text-decoration: none;
+  font-weight: 700;
+  background: #111827;
+  color: #ffffff;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #4f46e5;
+}
+
+.signature {
+  font-weight: 700;
+  margin-top: 1.5rem;
+}
